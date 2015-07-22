@@ -1,0 +1,42 @@
+# Startegy Pattern
+```javascript
+// Strategy Pattern
+
+var Cleaning = function() {
+    this.house = "";
+};
+
+Cleaning.prototype = {
+    setStrategy: function(house) {
+        this.house = house;
+    },
+    calculate: function(package) {
+        return this.house.calculate(package);
+    }
+};
+
+var Vacuuming = function() {
+    this.calculate = function(package) {
+        var vacuum_price = .2;
+        return package.price * vacuum_price;
+    }
+};
+
+var Dusting = function() {
+    this.calculate = function(package) {
+        var dusting_price = 2;
+        return dusting_price; 
+    }
+}
+
+var package = {price: 45};
+var cleaning = new Cleaning();
+var vacuuming = new Vacuuming();
+var dusting = new Dusting();
+
+cleaning.setStrategy(vacuuming);
+console.log("Vacuuming will cost you " + "$" + cleaning.calculate(package));
+
+cleaning.setStrategy(dusting);
+console.log("Dusting will cost you " + "$" + cleaning.calculate(package));
+```
