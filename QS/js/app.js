@@ -68,18 +68,22 @@ function Widget( config ) {
     };
     
     this.calcualtePercent = function() {
-        var quitDay = new Date("8/6/2015"),
+        var quitDay = new Date(data.quitDate),
             toDay = new Date(),
-            endDay = new Date();
+            endDay = new Date(data.quitDate);
         
          
         
-        endDay.setDate(quitDay.getDate() + config.time);
+        endDay.setDate(endDay.getDate() + config.time);
+ 
         console.log(quitDay)
         console.log(config.time)
         console.log(endDay)
         
-        return Math.round(100 - ((endDay.getDate() - quitDay.getDate()) * 100 ) / toDay.getDate()) + '%' 
+     
+        return Math.round(100 - ((endDay.getDate() - quitDay.getDate()) * 100 ) / toDay.getDate()) + '%';
+        
+        
     }
     
     this.getContent = function() {
@@ -110,30 +114,37 @@ function difference( quitDate ) {
 
         // what's left is seconds
         var seconds = delta % 60;  // in theory the modulus is not required
-        
-         
+    
         return days + " Days " + hours + " Hours " + minutes + " Minutes ";
     };
 
-
-var person = new Person({
+var data = {
     name : "Vitalie",
     quitDate: "8/2/2015 23:04:00"
-});
+}
+
+var person = new Person( data );
+
 var carbon = new Widget({
-    time : 4,
+    time : 1,
     content: "Carbon Monoxide and O2 levels"
 });
 
 var smell = new Widget({
-    time : 10,
-    content: "Smell"
+    time : 2,
+    content: "Two days"
+});
+
+var three = new Widget({
+    time : 13,
+    content: "13 Days"
 });
 
 var app = new AppLayout();
 app.add(person);
 app.add(carbon);
-//app.add(smell);
+app.add(smell);
+app.add(three);
 //app.add(person);
  
 app.appendTo($('body'));
