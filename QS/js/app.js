@@ -26,10 +26,7 @@ function Person( config ) {
     this.daysNotSmoking = function() {
         return difference(config.quitDate);
     };
-    
-    
-    
-    
+
     return this;
 };
 
@@ -54,7 +51,6 @@ function AppLayout( config ) {
         element.append(app_template);
     };
     
-    
 }; 
 
 function Widget( config ) {
@@ -72,7 +68,18 @@ function Widget( config ) {
     };
     
     this.calcualtePercent = function() {
-        return config.time;
+        var quitDay = new Date("8/6/2015"),
+            toDay = new Date(),
+            endDay = new Date();
+        
+         
+        
+        endDay.setDate(quitDay.getDate() + config.time);
+        console.log(quitDay)
+        console.log(config.time)
+        console.log(endDay)
+        
+        return Math.round(100 - ((endDay.getDate() - quitDay.getDate()) * 100 ) / toDay.getDate()) + '%' 
     }
     
     this.getContent = function() {
@@ -83,10 +90,11 @@ function Widget( config ) {
     return this;
 };
 function difference( quitDate ) {
-        var date1 = new Date(quitDate);
-        var date2 = new Date();
-        
-        var delta = Math.abs(date1 - date2) / 1000;
+        var startDate = new Date(quitDate),
+            toDay = new Date();
+    
+       
+        var delta = Math.abs(startDate - toDay) / 1000;
 
         // calculate (and subtract) whole days
         var days = Math.floor(delta / 86400);
@@ -102,22 +110,30 @@ function difference( quitDate ) {
 
         // what's left is seconds
         var seconds = delta % 60;  // in theory the modulus is not required
-
         
+         
         return days + " Days " + hours + " Hours " + minutes + " Minutes ";
     };
+
+
 var person = new Person({
     name : "Vitalie",
-    quitDate: "8/7/2015"
+    quitDate: "8/2/2015 23:04:00"
 });
 var carbon = new Widget({
-    time : "2",
-    content: "Carmon Monoxide"
+    time : 4,
+    content: "Carbon Monoxide and O2 levels"
+});
+
+var smell = new Widget({
+    time : 10,
+    content: "Smell"
 });
 
 var app = new AppLayout();
 app.add(person);
 app.add(carbon);
+//app.add(smell);
 //app.add(person);
  
 app.appendTo($('body'));
